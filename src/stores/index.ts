@@ -1,5 +1,10 @@
 import { defineStore } from 'pinia'
-import { pokemonCharacteristics, pokemonModel, pokemonPagination } from '../configuration/models'
+import {
+  pokemonCharacteristics,
+  pokemonCollection,
+  pokemonModel,
+  pokemonPagination
+} from '../configuration/models'
 
 export const usePokemonStore = defineStore('pokemon', {
   state: () => pokemonModel,
@@ -14,4 +19,8 @@ export const usePokemonPaginationStore = defineStore('pokemonPagination', {
 export const usePokemonCharacteristicsStore = defineStore('pokemonCharacteristics', {
   state: () => pokemonCharacteristics,
   actions: {}
+})
+
+export const usePokemonCollection = defineStore('pokemonCollection', {
+  state: () => pokemonCollection
 })

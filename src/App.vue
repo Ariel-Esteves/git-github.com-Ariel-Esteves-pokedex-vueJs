@@ -12,8 +12,13 @@ import NavbarSearch from './components/NavbarSearch.vue'
 
 <style scoped>
 #home {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
-  background-color: white;
+}
+
+body,
+div {
+  background: linear-gradient(120deg, #373737 0%, #efeae4 46%, #badb73 100%);
+  backdrop-filter: saturate(15%) blur(30px);
 }
 </style>

@@ -55,7 +55,7 @@ export interface pokemonInterface {
   forms: Array<formsInterface>
   name: string
   sprites: spritesInterface
-  types: typesPokemon
+  types: Array<typesPokemon>
 }
 
 export interface apiUrlInterface {
