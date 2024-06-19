@@ -56,6 +56,17 @@ export interface pokemonInterface {
   name: string
   sprites: spritesInterface
   types: Array<typesPokemon>
+  height: number
+  weight: number
+  id: number
+  stats: Array<{
+    base_stat: number
+    effort: number
+    stat: {
+      name: string
+      url: string
+    }
+  }>
 }
 
 export interface apiUrlInterface {

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { getPokemonCharacteristics, getPokemons } from '@/configuration/client';
-import type { pokemonCharacteristicsInterface, pokemonInterface } from '@/configuration/models/types';
+import type { pokemonInterface } from '@/configuration/models/types';
 import { usePokemonStore, usePokemonPaginationStore, usePokemonCharacteristicsStore, usePokemonCollection } from '@/stores';
-import { onMounted, reactive } from 'vue';
+import { onMounted } from 'vue';
 import IconsElement from './IconsElement.vue';
 import { pokemonPagination, pokemonTypes } from '@/configuration/models';
 
@@ -85,7 +85,7 @@ onMounted(() => { pokemons() })
 
 <style scoped>
 * {
-    color: white;
+    color: rgb(9, 9, 9);
 }
 
 #cards-container {
@@ -133,8 +133,9 @@ onMounted(() => { pokemons() })
     top: 20px;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, #807979 0%, #767b79 46%, #858b78 100%);
-    filter: blur(35px);
+    background: linear-gradient(90deg, #ffd5fe 0%, rgb(223, 187, 242) 10%, #ffd5fe 100%);
+    filter: blur(30px);
+    opacity: 10%;
     z-index: -1;
     transform: scale(0.9);
     border: 1px white;
@@ -142,6 +143,19 @@ onMounted(() => { pokemons() })
 
 .card .status-card:hover {
     animation: gelatine 2s infinite
+}
+
+.card:after {
+    display: block;
+    position: absolute;
+    transform: translate(25%, 25%);
+    z-index: -1;
+    content: '';
+    width: 8rem;
+    height: 8rem;
+    background-color: rgb(252, 242, 253);
+    filter: blur(15px);
+
 }
 
 @keyframes gelatine {

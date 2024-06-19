@@ -54,7 +54,11 @@ export const pokemonModel: pokemonInterface = {
         url: 'https://pokeapi.co/api/v2/type/13/'
       }
     }
-  ]
+  ],
+  height: 0,
+  id: 0,
+  stats: [{ base_stat: 0, effort: 0, stat: { name: 'aa', url: 'aa' } }],
+  weight: 0
 }
 
 export const apiUrlConstant: endpointsApiPokemonInterface = {

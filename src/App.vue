@@ -18,7 +18,7 @@ import NavbarSearch from './components/NavbarSearch.vue'
 
 body,
 div {
-  background: linear-gradient(120deg, #373737 0%, #efeae4 46%, #badb73 100%);
+  background: linear-gradient(0deg, #9751a0 0%, #ffc6fa 46%, #c88cbd 100%);
   backdrop-filter: saturate(15%) blur(30px);
 }
 </style>
