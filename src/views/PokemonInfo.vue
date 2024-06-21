@@ -36,7 +36,7 @@ const languageDescription: ComputedRef<string> = computed(() => {
 
 </script>
 <template>
-    <div class="d-flex justify-content-center align-items-center" id="container">
+    <div class="d-flex justify-content-center align-items-center left" id="container">
         <div id="characteristics">
             <div>
                 <span>
@@ -55,7 +55,7 @@ const languageDescription: ComputedRef<string> = computed(() => {
                 </h5>
             </div>
             <div class="d-flex">
-                <h3>abilities</h3>
+                <span>abilities</span>
                 <span :key="index" v-for="(abilitie, key, index) in pokemonStore.abilities">
                     {{ abilitie.ability.name }}
                 </span>
@@ -70,12 +70,11 @@ const languageDescription: ComputedRef<string> = computed(() => {
             </div>
         </div>
         <div class="d-flex flex-column justify-content-center align-items-center">
-            <h5 class="">{{ pokemonStore.name }}</h5>
+            <h5 class="name-pokemon">{{ pokemonStore.name }}</h5>
             <div class="card flip" style="width: 38rem;">
                 <img :src="spriteUrl.url" alt="">
             </div>
-            <div class="d-flex justify-content-center align-items-center">
-                <span>Description</span>
+            <div class="d-flex justify-content-center align-items-center description">
                 <h5>
                     {{ languageDescription }}
                 </h5>
@@ -104,17 +103,20 @@ const languageDescription: ComputedRef<string> = computed(() => {
     justify-content: center;
     align-items: center;
     max-height: 85%;
+
 }
 
 
 .flip {
+    max-height: 300px !important;
     backface-visibility: visible !important;
     animation: flip 3s ease-in-out infinite;
     background-color: transparent;
+
 }
 
 .flip::after {
-    display: block;
+    display: absolute;
     content: "";
     width: 17.5rem;
     height: 17.5rem;
@@ -125,18 +127,6 @@ const languageDescription: ComputedRef<string> = computed(() => {
     filter: blur(30px);
 }
 
-.flip:hover::after {
-    display: block;
-    content: "";
-    width: 17.5rem;
-    height: 17.5rem;
-    transform: translate(55%, -150%);
-    z-index: -2;
-    border-radius: 100%;
-    background-color: rgb(247, 247, 245);
-    filter: blur(100px);
-}
-
 #characteristics {
     display: flex;
     flex-direction: column;
@@ -145,7 +135,8 @@ const languageDescription: ComputedRef<string> = computed(() => {
     color: white;
     margin: 6%;
     padding: 10% 0;
-    perspective: 180px
+    perspective: 180px;
+    transform: rotateY(-10deg) rotateX(5deg) !important;
 }
 
 #characteristics div {
@@ -153,14 +144,14 @@ const languageDescription: ComputedRef<string> = computed(() => {
     text-align: right;
     justify-content: right;
     display: inline-block;
-    transform: rotateY(10deg) rotate(-5deg)
+    transform: rotateY(12deg) rotate(-5deg)
 }
 
 .right div {
-    font-size: large;
+
     text-align: right !important;
     justify-content: left !important;
-    transform: rotateY(-10deg) rotateX(5deg) !important;
+    transform: rotateY(-12deg) rotateX(5deg) !important;
 }
 
 
@@ -171,8 +162,30 @@ const languageDescription: ComputedRef<string> = computed(() => {
     justify-content: right;
 }
 
-h5 {
+h5,
+span {
     display: inline-block;
+    text-shadow: -1px 4px rgb(0, 0, 0) !important;
+    color: #fffddd;
+    margin: 0 1rem;
+    font-size: larger;
+    text-align: right;
+    justify-content: right;
+    font-size: 1.8rem !important;
+
+}
+
+.characteristics div span {}
+
+.description * {
+    position: absolute;
+    color: rgb(255, 255, 255) !important;
+    text-shadow: -1px 4px rgb(0, 0, 0) !important;
+    bottom: 0px !important;
+}
+
+* {
+    border: 0
 }
 
 @keyframes flip {
@@ -195,5 +208,10 @@ h5 {
 img {
 
     mix-blend-mode: multiply;
+}
+
+.name-pokemon {
+    font-size: 7rem !important;
+
 }
 </style>

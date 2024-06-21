@@ -103,10 +103,11 @@ onMounted(() => { pokemons() })
     margin: auto;
 }
 
+
 .card {
-    background: rgba(251, 234, 255, 0.8);
+    background: rgb(238, 246, 124);
     backdrop-filter: saturate(15%) blur(30px);
-    border: solid 4px whitesmoke;
+    box-shadow: 3px 1px rgb(73, 75, 76);
 }
 
 .card:hover {
@@ -122,6 +123,7 @@ onMounted(() => { pokemons() })
     top: 25px;
     right: -28px;
     border-radius: 100%;
+    border: none !important;
     z-index: 1;
     width: 250px;
     animation: pulse 0.8s infinite ease-in-out alternate;
@@ -133,7 +135,7 @@ onMounted(() => { pokemons() })
     top: 20px;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, #ffd5fe 0%, rgb(223, 187, 242) 10%, #ffd5fe 100%);
+    background: linear-gradient(90deg, #faf8b3 0%, rgb(248, 255, 201) 10%, #faf68a 100%);
     filter: blur(30px);
     opacity: 10%;
     z-index: -1;
@@ -145,6 +147,14 @@ onMounted(() => { pokemons() })
     animation: gelatine 2s infinite
 }
 
+.card .status-card,
+.card img {
+    width: 95%;
+    margin: 2.5% !important;
+
+
+}
+
 .card:after {
     display: block;
     position: absolute;
@@ -153,8 +163,9 @@ onMounted(() => { pokemons() })
     content: '';
     width: 8rem;
     height: 8rem;
-    background-color: rgb(252, 242, 253);
+    background-color: rgb(255, 254, 198);
     filter: blur(15px);
+    border-radius: 100%;
 
 }
 
