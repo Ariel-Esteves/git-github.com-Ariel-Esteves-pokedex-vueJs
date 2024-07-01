@@ -1,4 +1,4 @@
-import PokemonCatalog from '../views/PokemonCatalog.vue'
+import PokemonCatalog from '@/views/PokemonCatalog.vue'
 import PokemonInfo from '../views/PokemonInfo.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -11,7 +11,7 @@ const router = createRouter({
       component: PokemonCatalog
     },
     {
-      path: '/info',
+      path: '/:pokemon',
       name: 'info',
       component: PokemonInfo
     } /*,

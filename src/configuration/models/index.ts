@@ -35,16 +35,15 @@ export const pokemonModel: pokemonInterface = {
     }
   ],
   sprites: {
-    back_default:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/25.png',
-    back_female: '', // Set to an empty string if the Pokemon doesn't have a female back sprite
-    back_shiny: '',
-    back_shiny_female: '',
-    front_default:
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
-    front_female: '', // Set to an empty string if the Pokemon doesn't have a female front sprite
-    front_shiny: '',
-    front_shiny_female: ''
+    other: {
+      ['official-artwork']: {
+        back_default:
+          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/25.png',
+
+        front_default:
+          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png'
+      }
+    }
   },
   types: [
     {
@@ -94,8 +93,6 @@ export const pokemonCharacteristics: pokemonCharacteristicsInterface = {
   id: 0,
   possible_values: []
 }
-
-export const pokemonCollection: { pokemonList: Array<pokemonInterface> } = { pokemonList: [] }
 
 export const pokemonTypes: pokemonTypesInterface = {
   normal: {

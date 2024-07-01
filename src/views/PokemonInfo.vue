@@ -1,30 +1,36 @@
 <script setup lang="ts">
 
 import IconsElement from '@/components/IconsElement.vue';
+import { getPokemons } from '@/configuration/client';
 import { pokemonTypes } from '@/configuration/models';
 import type { description } from '@/configuration/models/types';
 import { usePokemonCharacteristicsStore, usePokemonStore } from '@/stores';
-import { computed, onMounted, reactive, ref, type ComputedRef } from 'vue';
+import { computed, onMounted, reactive, ref, type ComputedRef, type Ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 const pokemonCharacteristicsStore = usePokemonCharacteristicsStore()
 const pokemonStore = usePokemonStore()
-const { front_default, back_default } = pokemonStore.sprites
-const spritesObj: Object = {};
-Object.assign(spritesObj, { front_default, back_default });
-const spriteArray = Object.values(spritesObj)
+const spriteArray: Ref = ref([]);
 const spriteUrl = reactive({ index: 0, url: '' })
 
-
+const route = useRoute();
+const pokemonName = computed(() => {
+    return route.params.pokemon;
+});
 
 onMounted(() => {
-    setInterval(() => {
-        if (spriteUrl.index == spriteArray.length - 1) {
-            spriteUrl.index = 0
-        } else {
-            spriteUrl.index += 1
-        }
-        spriteUrl.url = spriteArray[spriteUrl.index]
-    }, 1335)
+    const pokemonData = async () => { return await getPokemons({ name: pokemonName.value }) }
+    pokemonData().then((data) => {
+        pokemonStore.id = data.id
+        pokemonStore.name = data.name
+        pokemonStore.height = data.height
+        pokemonStore.stats = data.stats
+        pokemonStore.types = data.types
+        pokemonStore.abilities = data.abilities
+        spriteArray.value = [...spriteArray.value, data.sprites.other['official-artwork']]
+        pokemonStore.weight = data.weight
+    })
+    console.log(pokemonData())
 })
 
 const languageDescription: ComputedRef<string> = computed(() => {
@@ -37,6 +43,7 @@ const languageDescription: ComputedRef<string> = computed(() => {
 </script>
 <template>
     <div class="d-flex justify-content-center align-items-center left" id="container">
+
         <div id="characteristics">
             <div>
                 <span>
@@ -72,7 +79,8 @@ const languageDescription: ComputedRef<string> = computed(() => {
         <div class="d-flex flex-column justify-content-center align-items-center">
             <h5 class="name-pokemon">{{ pokemonStore.name }}</h5>
             <div class="card flip" style="width: 38rem;">
-                <img :src="spriteUrl.url" alt="">
+                {{ console.log(spriteArray) }}
+                <img :src="spriteArray[0]['front_default']" alt="">
             </div>
             <div class="d-flex justify-content-center align-items-center description">
                 <h5>

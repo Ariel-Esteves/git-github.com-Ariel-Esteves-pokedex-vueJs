@@ -33,14 +33,12 @@ export interface formsInterface {
 // sprites
 
 export interface spritesInterface {
-  back_default: string
-  back_female: string
-  back_shiny: string
-  back_shiny_female: string
-  front_default: string
-  front_female: string
-  front_shiny: string
-  front_shiny_female: string
+  other: {
+    ['official-artwork']: {
+      back_default: string
+      front_default: string
+    }
+  }
 }
 
 export interface typesPokemon {
@@ -75,8 +73,13 @@ export interface apiUrlInterface {
 }
 
 export interface argsPokemonInterface {
-  name?: string
-  url?: string
+  name: string
+  url: string
+}
+
+export interface offsetUrlInterface {
+  limit: number
+  offset: number
 }
 
 export interface description {

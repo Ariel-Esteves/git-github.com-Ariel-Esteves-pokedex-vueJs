@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { apiUrlConstant } from '../models'
-import type { argsPokemonInterface } from '../models/types'
+import type { apiUrlInterface, argsPokemonInterface, offsetUrlInterface } from '../models/types'
 
 export async function getPokemons(args?: argsPokemonInterface) {
   if (args?.name) {
@@ -13,4 +13,14 @@ export async function getPokemons(args?: argsPokemonInterface) {
 
 export async function getPokemonCharacteristics(id: number) {
   return (await axios.get(apiUrlConstant.characteristics.url + '/' + id)).data
+}
+interface idType {
+  id: number
+}
+export async function getPokemonsOffset(args: offsetUrlInterface) {
+  return (
+    await axios.get(
+      apiUrlConstant.pokemon.url + '?limit=' + args?.limit + '&offset=' + args?.offset
+    )
+  ).data
 }

@@ -17,8 +17,7 @@ defineProps({
 <style scoped>
 .icon-type {
     border-radius: 100%;
-    height: 30px;
-    width: 30px;
-    transition: all .2s;
+    height: 25px;
+    width: 25px;
 }
 </style>

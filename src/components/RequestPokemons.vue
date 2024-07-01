@@ -1,201 +1,97 @@
 <script setup lang="ts">
-import { getPokemonCharacteristics, getPokemons } from '@/configuration/client';
-import type { pokemonInterface } from '@/configuration/models/types';
-import { usePokemonStore, usePokemonPaginationStore, usePokemonCharacteristicsStore, usePokemonCollection } from '@/stores';
-import { onMounted } from 'vue';
+import { getPokemons, getPokemonsOffset } from '@/configuration/client';
+import type { apiUrlInterface, pokemonInterface, pokePaginationInterface } from '@/configuration/models/types';
+import { ref, reactive, onMounted, type Ref } from 'vue';
 import IconsElement from './IconsElement.vue';
-import { pokemonPagination, pokemonTypes } from '@/configuration/models';
+import { pokemonTypes } from '@/configuration/models';
 
-const pokemonStore = usePokemonStore()
-const pokemonPaginationStore = usePokemonPaginationStore();
-const pokemonCharacteristicsStore = usePokemonCharacteristicsStore();
-const pokemonCollection = usePokemonCollection();
+const pokemonListArray: Ref<pokemonInterface[]> = ref([])
+const offsetReact = reactive({
+    limit: 40,
+    offset: 0
+})
 
-window.onscroll = function (ev) {
-    const scrolledTo = window.scrollY + window.innerHeight
-    const isReachBottom = document.body.scrollHeight <= scrolledTo
+interface SortArrayData { id: number, name: string, url: string }
 
-    if (isReachBottom) if (isReachBottom) pokemons();
-};
+async function orderPokemons(): Promise<void> {
+    const response: pokePaginationInterface = await getPokemonsOffset(offsetReact)
+    const sortPokemons: SortArrayData[] = response.results.map((pokemonData: apiUrlInterface) => {
+        const url = pokemonData.url
+        const regex = /\/(\d+)\// // Matches digits between forward slashes
+        const match = url.match(regex)
 
-const listPokemons = async () => {
-    pokemonPaginationStore.results.map(async (element) => {
-        pokemonCollection.pokemonList.push(await getPokemons({ name: element.name }));
-    })
+        if (match !== null) return ({
+            id: parseInt(match[1]),
+            name: pokemonData.name,
+            url: pokemonData.url
+        }) as SortArrayData;
+        return null;
+    }).filter((pokemonData) => pokemonData !== null).sort((a, b) => a.id - b.id);
+    const pokemonsData = await Promise.all(sortPokemons.map(async (pokemonData) => {
+        const dataReceived = await getPokemons(pokemonData)
+        console.log(dataReceived.sprites.other['official-artwork'])
+        return {
+            abilities: dataReceived.abilities,
+            forms: dataReceived.forms,
+            height: dataReceived.height,
+            id: dataReceived.id,
+            name: dataReceived.name,
+            sprites: dataReceived.sprites.other['official-artwork'],
+            stats: dataReceived.stats,
+            types: dataReceived.types,
+            weight: dataReceived.weight,
+        }
+    }))
+    pokemonListArray.value = [...pokemonListArray.value, ...pokemonsData]
 }
-const pokemons = async () => {
-    if (pokemonPagination.results.length < 1) {
-        pokemonPaginationStore.$patch(
-            await getPokemons()
-        )
-    } else {
-        pokemonPaginationStore.$patch(
-            await getPokemons({ url: pokemonPagination.next })
-        )
-    }
-
-    //get 60
-    listPokemons()
-    pokemonPaginationStore.$patch(
-        await getPokemons({ url: pokemonPaginationStore.next })
-    )
-    listPokemons()
-    pokemonPaginationStore.$patch(
-        await getPokemons({ url: pokemonPaginationStore.next })
-    )
-    listPokemons();
-
-}
-
-const SelectPokemon = async (args: { data: pokemonInterface, idPokemon: number }) => {
-    pokemonStore.$patch(args.data)
-    pokemonCharacteristicsStore.$patch(await getPokemonCharacteristics(args.idPokemon))
-
+function passButton(n: number): void {
+    pokemonListArray.value = []
+    offsetReact.offset += n
+    orderPokemons()
 }
 
-onMounted(() => { pokemons() })
 
 
+
+onMounted(() => {
+    orderPokemons()
+})
 </script>
 <template>
-    <div id="cards-container">
-        <RouterLink to="/info" :key="index" v-for="(data, index) in pokemonCollection.pokemonList">
-            <div class="card" style="width: 12rem;" :onclick="() => SelectPokemon({ data: data, idPokemon: index })">
-                <img :src="data.sprites.front_default" class="card-img-top" alt="...">
-                <div class="row status-card m-0 p-0 b-0 d-flex justify-content-around">
-                    <div class=" card-text p-0 col-8">
-                        <h3 class="card-title fs-5"><span>{{ data.name }}</span></h3>
-                        <h3 class="card-title fs-3"><span>{{ index }}</span></h3>
+    <div class="p-3">
+        <div class="d-flex flex-wrap justify-content-center">
+            <RouterLink :to="data.name" class="" :key="index" v-for="(data, index) in pokemonListArray">
+                <div class="card" style="width: 12rem;">
+                    <div class="card">
+                        <img :src="data.sprites.front_default" class="card-img-top" alt="...">
                     </div>
-                    <div class="card-text p-0 col-2">
-                        <h5 :key="index" v-for="(data1, key, index) in data.types">
-                            <IconsElement :color-prop="pokemonTypes[data1.type.name]['color']"
-                                :url-image-prop="pokemonTypes[data1.type.name]['url']" />
-                        </h5>
+                    <div class="card">
+                        <div class="row status-card m-0 p-0 b-0 d-flex justify-content-around">
+                            <div class=" card-text p-0 col-8">
+                                <h3 class="card-title fs-6"><span>{{ data.name }}</span></h3>
+                                <h3 class="card-title fs-3 m-0"><span>{{ data.id }}</span></h3>
+                            </div>
+                            <div class="card-text col-1 p-0 justify-content-end d-flex flex-column">
+                                <h5 :key="index" v-for="(data1, index) in data.types">
+                                    <IconsElement :color-prop="pokemonTypes[data1.type.name]['color']"
+                                        :url-image-prop="pokemonTypes[data1.type.name]['url']" />
+
+                                </h5>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-        </RouterLink>
-        <div class="container-bt">
-            <button @click="() => pokemons()">NEXT</button>
+            </RouterLink>
+        </div>
+        <div class="container-bt d-flex justify-content-center mx-lg-5 mt-sm-3 px-5">
+            <button class="btn btn-danger w-25" @click="() => passButton(-offsetReact.limit)">PREVIOUS</button>
+            <div style="content: '';" class="p-4 rounded-circle bg-white mx-3"></div>
+            <button class="btn btn-danger w-25" @click="() => passButton(+offsetReact.limit)">NEXT</button>
         </div>
     </div>
 
+
 </template>
 
-<style scoped>
-* {
-    color: rgb(9, 9, 9);
-}
-
-#cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 0%;
-    margin: 0;
-    height: 100%;
-}
-
-.container-bt {
-    height: auto;
-    width: 100%;
-    margin: auto;
-}
-
-
-.card {
-    background: rgb(238, 246, 124);
-    backdrop-filter: saturate(15%) blur(30px);
-    box-shadow: 3px 1px rgb(73, 75, 76);
-}
-
-.card:hover {
-    position: relative;
-    background: rgba(143, 132, 143, 0.8);
-    backdrop-filter: saturate(15%) blur(30px);
-    box-shadow: 10px 20px 20px 10px rgb(125, 206, 247);
-    border: 2px solid;
-}
-
-.card:hover img {
-    position: absolute;
-    top: 25px;
-    right: -28px;
-    border-radius: 100%;
-    border: none !important;
-    z-index: 1;
-    width: 250px;
-    animation: pulse 0.8s infinite ease-in-out alternate;
-}
-
-.card::before {
-    content: "";
-    position: absolute;
-    top: 20px;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, #faf8b3 0%, rgb(248, 255, 201) 10%, #faf68a 100%);
-    filter: blur(30px);
-    opacity: 10%;
-    z-index: -1;
-    transform: scale(0.9);
-    border: 1px white;
-}
-
-.card .status-card:hover {
-    animation: gelatine 2s infinite
-}
-
-.card .status-card,
-.card img {
-    width: 95%;
-    margin: 2.5% !important;
-
-
-}
-
-.card:after {
-    display: block;
-    position: absolute;
-    transform: translate(25%, 25%);
-    z-index: -1;
-    content: '';
-    width: 8rem;
-    height: 8rem;
-    background-color: rgb(255, 254, 198);
-    filter: blur(15px);
-    border-radius: 100%;
-
-}
-
-@keyframes gelatine {
-
-    from,
-    to {
-        transform: scale(1, 1);
-    }
-
-    25% {
-        transform: scale(0.9, 1.1);
-    }
-
-    50% {
-        transform: scale(1.1, 0.9);
-    }
-
-    75% {
-        transform: scale(0.95, 1.05);
-    }
-}
-
-@keyframes pulse {
-    from {
-        transform: scale(1);
-    }
-
-    to {
-        transform: scale(1.2);
-    }
-}
-</style>
+<style scoped></style>
