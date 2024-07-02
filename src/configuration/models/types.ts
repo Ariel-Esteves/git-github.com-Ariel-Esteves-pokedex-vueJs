@@ -73,8 +73,8 @@ export interface apiUrlInterface {
 }
 
 export interface argsPokemonInterface {
-  name: string
-  url: string
+  name?: string
+  url?: string
 }
 
 export interface offsetUrlInterface {
@@ -112,24 +112,5 @@ export interface pokemonTypesSubInterface {
 }
 
 export interface pokemonTypesInterface {
-  normal: pokemonTypesSubInterface
-  fighting: pokemonTypesSubInterface
-  flying: pokemonTypesSubInterface
-  poison: pokemonTypesSubInterface
-  ground: pokemonTypesSubInterface
-  rock: pokemonTypesSubInterface
-  bug: pokemonTypesSubInterface
-  ghost: pokemonTypesSubInterface
-  steel: pokemonTypesSubInterface
-  fire: pokemonTypesSubInterface
-  water: pokemonTypesSubInterface
-  grass: pokemonTypesSubInterface
-  electric: pokemonTypesSubInterface
-  psychic: pokemonTypesSubInterface
-  ice: pokemonTypesSubInterface
-  dragon: pokemonTypesSubInterface
-  dark: pokemonTypesSubInterface
-  fairy: pokemonTypesSubInterface
-  unknown: pokemonTypesSubInterface
-  shadow: pokemonTypesSubInterface
+  [key: string]: pokemonTypesSubInterface
 }
