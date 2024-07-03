@@ -10,10 +10,8 @@ import NavbarSearch from './components/NavbarSearch.vue'
   </div>
 </template>
 
-<style scoped>
-body,
-div {
-  height: 100%;
+<style>
+body {
   background: radial-gradient(rgb(222, 229, 230), rgba(187, 243, 255, 1));
 }
 </style>
