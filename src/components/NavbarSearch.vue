@@ -3,8 +3,8 @@ import { RouterLink } from 'vue-router';
 
 </script>
 <template>
-    <nav class="navbar p-0 bg-body-tertiary">
-        <div class="container-fluid">
+    <nav class="navbar p-0 bg-body-tertiary" style="max-height: 100%;">
+        <div>
             <RouterLink class="navbar-brand" to="/">Home</RouterLink>
             <RouterLink class="navbar-brand" to="/info">info</RouterLink>
 

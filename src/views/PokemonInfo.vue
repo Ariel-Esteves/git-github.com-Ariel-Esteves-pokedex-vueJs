@@ -40,10 +40,10 @@ const languageDescription = computed(() => {
 
 </script>
 <template>
-    <div class="d-flex justify-content-between align-items-center mh-100" id="container">
+    <div class="d-flex justify-content-between align-items-center" id="info-container">
         <h5 class="name-pokemon">{{ pokemonStore.name }}</h5>
         <div class="d-flex flex-column justify-content-center align-items-center">
-            <div class="card" style="width: 40rem;">
+            <div class="card" style="max-width: 40rem;">
                 <img :src="spriteRef['front_default']" alt="">
             </div>
             <div class="d-flex justify-content-center align-items-center description">
@@ -96,10 +96,13 @@ h5 {
 .name-pokemon {
     writing-mode: vertical-lr;
     text-orientation: upright;
-    font-size: 4rem;
+    font-size: 3rem;
     color: whitesmoke;
     margin: 0 1rem;
     text-shadow: 2px 8px 4px #02646f;
-    max-height: 100%;
+}
+
+#info-container {
+    max-height: 80%;
 }
 </style>
