@@ -40,7 +40,7 @@ const languageDescription = computed(() => {
 
 </script>
 <template>
-    <div class="d-flex justify-content-between align-items-center left" id="container">
+    <div class="d-flex justify-content-between align-items-center mh-100" id="container">
         <h5 class="name-pokemon">{{ pokemonStore.name }}</h5>
         <div class="d-flex flex-column justify-content-center align-items-center">
             <div class="card" style="width: 40rem;">
@@ -59,7 +59,7 @@ const languageDescription = computed(() => {
                 <span>Height:</span>
                 <h5>{{ pokemonStore.height }}</h5>
             </div>
-            <div class="d-flex justify-content-between align-items-center shadow">
+            <div class="d-flex justify-content-between align-items-center">
                 <span>Type:</span>
                 <IconsElement :key="index" :color-prop="pokemonTypes[pokemonType.type.name]['color']"
                     :url-image-prop="pokemonTypes[pokemonType.type.name]['url']"
@@ -69,7 +69,7 @@ const languageDescription = computed(() => {
         <div id="characteristics" class="p-4 bg-white rounded-4 mx-5">
             <div class="my-3 d-flex justify-content-between align-items-center">
                 <span>Skills:</span>
-                <span :key="index" v-for="(ability, index) in pokemonStore.abilities">
+                <span class="mx-1 bg-info rounded" :key="index" v-for="(ability, index) in pokemonStore.abilities">
                     {{ ability.ability.name }}
                 </span>
             </div>
@@ -100,5 +100,6 @@ h5 {
     color: whitesmoke;
     margin: 0 1rem;
     text-shadow: 2px 8px 4px #02646f;
+    max-height: 100%;
 }
 </style>
