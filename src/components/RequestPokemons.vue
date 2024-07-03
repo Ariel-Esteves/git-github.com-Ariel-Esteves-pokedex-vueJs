@@ -14,6 +14,7 @@ const loadingRef = ref(true)
 interface SortArrayData { id: number, name: string, url: string }
 
 async function orderPokemons(): Promise<void> {
+    if (loadingRef.value === false) loadingRef.value = !loadingRef.value
     const response: pokePaginationInterface = await getPokemonsOffset(offsetReact)
     const sortPokemons: SortArrayData[] = response.results.map((pokemonData: apiUrlInterface) => {
         const url = pokemonData.url
